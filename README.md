@@ -14,4 +14,3 @@ Data block:
 
 EOF:
 - 512 all zeroes/null
-# sarchive
