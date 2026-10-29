@@ -26,14 +26,14 @@ static class Archiver {
         fs_out.Close();
     }
 
-    private static byte[] pad_or_truncate_to_256b(byte[] bytes_in)
+    private static byte[] pad_or_truncate_to_504b(byte[] bytes_in)
     {
-        byte[] blocked_bytes = new byte[256];
+        byte[] blocked_bytes = new byte[504];
 
         //truncate
-        if (bytes_in.Length > 256)
+        if (bytes_in.Length > 504)
         {
-            return bytes_in[0..255];
+            return bytes_in[0..504];
         }
 
         //pad
@@ -60,9 +60,9 @@ static class Archiver {
 
     private static void write_header(FileStream fs_in, FileStream fs_out)
     {
-        byte[] length_as_bytes = pad_or_truncate_to_256b(BitConverter.GetBytes(fs_in.Length));
+        byte[] length_as_bytes = BitConverter.GetBytes(fs_in.Length);
 
-        byte[] name_as_bytes = pad_or_truncate_to_256b(Encoding.ASCII.GetBytes(fs_in.Name));
+        byte[] name_as_bytes = pad_or_truncate_to_504b(Encoding.ASCII.GetBytes(fs_in.Name));
 
         fs_out.Write(name_as_bytes, 0, 256);
         fs_out.Write(length_as_bytes, 0, 256);
